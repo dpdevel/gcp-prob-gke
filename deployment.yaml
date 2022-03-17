@@ -1,0 +1,32 @@
+kind: Deployment
+metadata:
+  name: readiness-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: readiness-example
+  template:
+    metadata:
+      labels:
+        name: readiness-example
+    spec:
+      containers:
+      - name: readiness-example
+        image: dbdock/readiness-example:1.0.0
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 40
+          timeoutSeconds: 2
+          periodSeconds: 3
+          failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 100
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 5
